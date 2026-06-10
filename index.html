@@ -58,7 +58,15 @@
   </style>
 
 
-<script src="images.js" onload="applyImages()"></script>
+<script>
+(function(){
+  var s=document.createElement('script');
+  s.src='images.js?v=1';
+  s.onload=function(){if(typeof applyImages==='function')applyImages();};
+  s.onerror=function(){console.warn('images.js not found');};
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
 <header>
@@ -482,6 +490,10 @@ function applyImages(){
   slabs.forEach(s=>{if(window.SLAB_IMAGES[s.name])s.img=window.SLAB_IMAGES[s.name];});
   filter();
 }
+// Also try applying once DOM is fully loaded
+document.addEventListener('DOMContentLoaded',function(){
+  if(window.SLAB_IMAGES)applyImages();
+});
 </script>
 </body>
 </html>
